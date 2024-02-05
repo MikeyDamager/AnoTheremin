@@ -60,10 +60,7 @@ let meth, stacker, zyborg
 
 let myFFT, bgSound
 
-document.querySelector('button').addEventListener('click', async () => {
-  await Tone.start()
-  // your page is ready to play sounds
-})
+
 
 
 
@@ -181,11 +178,9 @@ MMMMMMMM               MMMMMMMM     OOOOOOOOO           UUUUUUUUU       SSSSSSSS
                                                                                                                
 */
 function mousePressed () {
-    if(audioStart=false){
-
-        Tone.start()
-        audioStart = true
-    }
+  if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+  }
     
   lead.triggerAttack();
   bass.triggerAttack();
