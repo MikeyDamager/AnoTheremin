@@ -181,6 +181,12 @@ MMMMMMMM               MMMMMMMM     OOOOOOOOO           UUUUUUUUU       SSSSSSSS
                                                                                                                
 */
 function mousePressed () {
+    if(audioStart=false){
+
+        Tone.start()
+        audioStart = true
+    }
+    
   lead.triggerAttack();
   bass.triggerAttack();
 }
