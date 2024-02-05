@@ -60,6 +60,11 @@ let meth, stacker, zyborg
 
 let myFFT, bgSound
 
+document.querySelector('button').addEventListener('click', async () => {
+  await Tone.start()
+  // your page is ready to play sounds
+})
+
 
 
 /*    
