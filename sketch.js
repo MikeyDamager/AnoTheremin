@@ -242,7 +242,7 @@ function mousePressed () {
     Tone.context.resume();
   }
     
-=======
+
 
   //when mouse is pressed, it triggers the amplitude envelope for the oscillator and sustains until released.
 >>>>>>> Stashed changes
