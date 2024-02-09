@@ -201,7 +201,7 @@ function draw() {
   let gainVol = map(mouseY, height, height*0.1, 0,0.1)//maps y to the lead gain.
 
 //these just link the mapped input data to their respective effect nodes. 
-  hiPass.frequency.value = cutoffFreqX;
+  hiPass.frequency.value = cutoffFreqX;  
   loPass.frequency.value = cutoffFreqY;
   wub.frequency.value = modFreq
   crusher.bits.value = bits
@@ -438,24 +438,24 @@ function scaleLogic(){
   if(scalePos==1){
   frequency = 220 // Root A
   }else if(scalePos==2){
-  frequency = 261.63 //minor 3rd C
+  frequency = 277.18 //C#
   } else if(scalePos==3){
-  frequency = 293.66 //perfect 4th D
+  frequency = 311.13 //aug 4th D#
   } else if(scalePos==4){
   frequency = 329.63 //perfect 5th E
   } else if(scalePos==5){
-  frequency = 392 //minor 7th G
+  frequency = 415.3 //major 7 g#
   }else if(scalePos==6){
   frequency = 440 //octave
   }else if(scalePos==7){
-  frequency = 523.25 //etc...
+  frequency = 277.18*2 //etc...
   }
   else if(scalePos==8){
-  frequency = 587.33
+  frequency = 311.13*2
   }else  if(scalePos==9){
   frequency = 659.26
   }else if(scalePos==10){
-  frequency = 783.99
+  frequency = 415.3*2
   } else if(scalePos==11){
   frequency = 880 //octave
   }
