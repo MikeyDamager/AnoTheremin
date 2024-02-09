@@ -11,7 +11,7 @@ Currently the sound is made from two oscillators that are running through their 
 One lead osc is playing a lead tone, and a bass osc is playing the same notes tuned several octaves lower
 
 Its designed for mobile, naturally. Its intended to be held in one hand like a computer mouse or remote control, but it only uses the index finger for controls. 
-Forward and back tilt controls the pitch which is currently locked to two octaves of the A minor pentatonic scale (notes A, C, D, E, G, A, C etc).
+Forward and back tilt controls the pitch which is currently locked to two octaves of the A lydian pentatonic scale (notes A, C#, D#, E, G#, A, C# etc).
 Left and right tilt currently controls the modulation speed of the filter on the bass oscillator to make it wub. 
 x and y position data from the touchscreen control a number of different effect parameters 
 (as of writing this sentence I can't remember what they are, but read on and i'll talk you through them.)
@@ -166,7 +166,7 @@ function draw() {
   pop()
 
 
-  //foward back tilt is mapped to 11 notes that are currently set to two octaves of the A minor pentatonic scale
+  //foward back tilt is mapped to 11 notes that are currently set to two octaves of the A lydian pentatonic scale
   scalePos = int(map(tiltPos, 0, height, 1, 11))
 
   //left to right twist is mapped to the modulation speed on a lowpass filter to make the bass wub
