@@ -57,13 +57,13 @@ but this is a good formula to know if you're making music related things.
 In order to counteract a whole bunch of issues caused by historical methods of tuning musical notes to simple, low integer ratios of eachother
 a number of major composers in the 18th century started using a tuning that evenly dispersed 12 notes across an octave and this is what most modern pianos are now tuned to.
 
-- Take a base frequency (the A above middle C (A4) on a piano is usually tuned to 440hz so it an easy one to remember).
+- Take a base frequency (the A above middle C (A4) on a piano is usually tuned to 440hz so it is an easy one to remember).
 
 - multiply that note by the 12th root of 2 (or 1.05946309436) and you've got the frequency of the next key on the piano. 
 
 - multiply the second note by the same number and keep going until you end up with double the frequency you started with.
 
--this is your octave, you can multiply or divide them by 2 to shift into higher or lower octaves respectively.
+-this is your octave. you can now multiply or divide every note by 2 to shift into higher or lower octaves respectively.
 
 
 unfortunately, the chromatic scale makes this instrument sound like a pissed off cat until we can implement a better system of triggering the sound and calibrate the tilt action a little better.
@@ -74,6 +74,7 @@ unfortunately, the chromatic scale makes this instrument sound like a pissed off
 //tone.js variables for the nodes in our signal path. 
 const volume = -15;
 let lead, bass, hiPass, loPass, wub, crusher, chorus, verb, vib, trem
+let leadGain, bassGain
 
 let frequency
 let modSpeed
@@ -159,7 +160,7 @@ function draw() {
   textSize(height/10)
   push()
  rotate(90)
- textFont('stacker')
+ textFont(stacker)
  stroke(255,20)
   text("AnoTheremin", height/2,-width*0.9)
   pop()
@@ -197,7 +198,7 @@ function draw() {
 
   let depth = map(mouseX, 0, width, 0, 0.5) //depth setting for the reverb. effectively how much wet signal is mixed in with the dry.
   let room = map(mouseX,0,width,0.2,0.7) //the size of the reverberations.
-
+  let gainVol = map(mouseY, height, height*0.1, 0,0.1)//maps y to the lead gain.
 
 //these just link the mapped input data to their respective effect nodes. 
   hiPass.frequency.value = cutoffFreqX;
@@ -209,6 +210,7 @@ function draw() {
   vib.depth.value = depth
   chorus.frequency.value = chorFreq/2
   chorus.depth.value = depth/4
+  leadGain.gain.value = gainVol
   
   spectro()//draws the waveform
   tiltMap()//maps the tilt position to 11 possible notes
@@ -308,7 +310,7 @@ function createSynth() {
     modulation: {type: "sine"},//shape of the modulation signal.
     modulationEnvelope: {attack: 0.5, decay: 0, sustain: 1, release: 0.5},
 
-    portamento: 0.1 //the speed at which the oscillator drifts between frequencies when new notes are triggered.
+    portamento: 0.1 //how long it takes for the oscillator to drift between frequencies when new notes are triggered.
 });
 
 
@@ -334,8 +336,8 @@ bass = new Tone.FMSynth({
 
 
 //each oscillator gets a gain node to balance their respective volumes in the signal path. 
-let leadGain = new Tone.Gain(0.2)
-let bassGain = new Tone.Gain(0.4)
+leadGain = new Tone.Gain(0.2)
+bassGain = new Tone.Gain(0.4)
 
 
 //connect the oscs to the gain nodes. 
@@ -343,7 +345,7 @@ let bassGain = new Tone.Gain(0.4)
   lead.connect(leadGain)
   
 //This is how the audio signal path connects. 
-//It's not too crazy at the moment but his is where things can get real confusing really quick without a robust naming system and real cables to visualise everything.
+//It's not too crazy at the moment but this is where things can get real confusing really quick without a robust naming system and real cables to visualise everything.
 
   
   leadGain.connect(vib); //Lead gain goes into vibrato, to give it the voicelike, wavering quality to the pitch. 
@@ -514,11 +516,11 @@ function mouseLoc(){
  | | | | \__ \ | |_  |  __/ | | | | |  __/ | |    \__ \
  |_| |_| |___/  \__|  \___| |_| |_|  \___| |_|    |___/
 */
+//all the other boring stuff. Gyroscopes spitting out numbers and window resizing and such.
 
 function windowResized () {
   resizeCanvas(windowWidth, windowHeight);
 }
-
 function handlePermissionButtonPressed(){
     DeviceMotionEvent.requestPermission()
     .then(response => {
@@ -539,6 +541,10 @@ function handlePermissionButtonPressed(){
 
 function deviceMotionHandler(event){
   
+  /*
+ im not using accelerometer, but like you say we could figure out a war to impliment it for percussive or staccato sounds. like digital maracas.
+  
+  */
   accX = event.acceleration.x;
   accY = event.acceleration.y;
   accZ = event.acceleration.z;
