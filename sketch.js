@@ -237,15 +237,10 @@ MMMMMMMM               MMMMMMMM     OOOOOOOOO           UUUUUUUUU       SSSSSSSS
                                                                                                                
 */
 function mousePressed () {
-<<<<<<< Updated upstream
   if (Tone.context.state !== 'running') {
     Tone.context.resume();
   }
     
-
-
-  //when mouse is pressed, it triggers the amplitude envelope for the oscillator and sustains until released.
->>>>>>> Stashed changes
   lead.triggerAttack();
   bass.triggerAttack();
 }
@@ -296,7 +291,7 @@ function createSynth() {
 
     detune: 0, //modify base frequency by cents (100ths of a semitone) not hz.
 
-    oscillator: {type: "triangle"},//the shape of the carrier signal that is actually heard.
+    oscillator: {type: "sine"},//the shape of the carrier signal that is actually heard.
     //amplitude envelope.
     
     
