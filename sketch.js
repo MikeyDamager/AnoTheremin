@@ -66,7 +66,8 @@ a number of major composers in the 18th century started using a tuning that even
 -this is your octave. you can now multiply or divide every note by 2 to shift into higher or lower octaves respectively.
 
 
-unfortunately, the chromatic scale makes this instrument sound like a pissed off cat until we can implement a better system of triggering the sound and calibrate the tilt action a little better.
+unfortunately, the chromatic scale makes this instrument sound like a pissed off cat until we can implement a better system of triggering the sound and calibrate the tilt action a little better,
+so currently it completely ignores the above and selects notes from the A lydian mode to give it a tritone so the melodies sound all spoopy and sci-fi. 
 */
 
 
@@ -99,10 +100,6 @@ let stacker
 
 //gonna put a menu splash screen in
 let splash = true
-
-
-
-
 
 
 
@@ -189,7 +186,7 @@ function draw() {
   //x mouse position maps to a range between 1000 and 200000 from left to right for the hipass filter.
   let cutoffFreqX = map(mouseX, 0, width, 1000, 20000);
   //y mouse maps from 2000 to 20 top to bottom for the lowpass filter on the bass
-  let cutoffFreqY = map(mouseY, 0, height, 2000, 20);
+  let cutoffFreqY = map(mouseY, 0, height, 2000, 80);
 
 
   let chorFreq = map(mouseY, 0, height, 1, 10) //this is the speed of the chorus effect. 1 - 10 hz. 
