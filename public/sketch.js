@@ -297,7 +297,7 @@ function draw() {
     textFont(stacker);
     background(220, 150);
     fill(20);
-    textSize(width / 20);
+    textSize(width / 30);
     textAlign(CENTER, CENTER);
     rectMode(CORNER)
     text("Scan QR code and click to play.", width / 4, 0, width / 2, height);
