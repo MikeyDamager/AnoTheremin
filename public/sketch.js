@@ -1,6 +1,5 @@
 //Glitch uses ES Lint to show errors, this does not play nicely with external libraries like p5, the line below will turn off those errors:
-/*eslint no-undef: 0*/ 
-
+/*eslint no-undef: 0*/
 
 /*
 This is a very simple multi-user painting app. If you wanted to expand this, it would be better to use an offscreen buffer:
@@ -134,6 +133,7 @@ let urlHost = window.location.host;
 let users = [];
 const radius = 200;
 let controllerA, controllerB;
+let isPlaying = false;
 
 function preload(){
   stacker = loadFont('assets/stacker.ttf')
@@ -205,10 +205,11 @@ function setup() {
 
 function draw() {
   // background(250);
-  background(0);
+  background(20);
   fill(200,50);
   textAlign(CENTER, TOP);
   textSize(height / 10);
+
   push();
   rotate(90);
   textFont(stacker);
@@ -234,7 +235,7 @@ function draw() {
   These next variables map the user actions to different effect parameters. Effect routing is where the real fun happens. 
   */
 
-  if(controllerA){
+  if(controllerA && controllerB){
     //FILTER MAPS - human hearing range is from around 20hz to 20Khz
 
     //x mouse position maps to a range between 1000 and 200000 from left to right for the hipass filter.
@@ -249,7 +250,7 @@ function draw() {
 
     let depth = map(controllerA.turned.beta, 0, 1, 0, 0.5); //depth setting for the reverb. effectively how much wet signal is mixed in with the dry.
     let room = map(controllerA.turned.beta, 0, 2, 0.2, 0.7); //the size of the reverberations.
-    let gainVol = map(controllerA.accMag, 0, 0.1, 0, 0.1);//maps y to the lead gain.
+    let gainVol = map(controllerB.turned.beta, 0, 1, 0.1, 0);//maps y to the lead gain.
       //these just link the mapped input data to their respective effect nodes. 
     hiPass.frequency.value = cutoffFreqX;  
     loPass.frequency.value = cutoffFreqY;
@@ -261,6 +262,8 @@ function draw() {
     chorus.frequency.value = chorFreq/2;
     chorus.depth.value = depth/4;
     leadGain.gain.value = gainVol;
+  }else{
+    leadGain.gain.value = 0.1;
   }
   
   
@@ -282,14 +285,24 @@ function draw() {
   if(controllerB?.isPaired){
     drawRightController();
     if(controllerB.isTaped != lastTapedB && controllerB.isTaped){
-      screenPressed();
+      // screenPressed();
     }else if(controllerB.isTaped != lastTapedB && !controllerB.isTaped){
-      screenReleased();
+      // screenReleased();
     }
     lastTapedB = controllerB.isTaped;
   }
 
-
+  if(!isPlaying){
+    push();
+    textFont(stacker);
+    background(220, 150);
+    fill(20);
+    textSize(width / 20);
+    textAlign(CENTER, CENTER);
+    rectMode(CORNER)
+    text("Scan QR code and click to play.", width / 4, 0, width / 2, height);
+    pop();
+  }
 
    
 
@@ -732,10 +745,20 @@ function windowResized () {
 }
 
 function mousePressed () {
-  if (Tone.context.state !== 'running') {
-    Tone.context.resume();
+  if(!isPlaying){
+    if (Tone.context.state != 'running') {
+      Tone.context.resume();
+      
+    }
+    var context = new AudioContext();
+    context.resume().then(() => {
+      console.log('Playback resumed successfully');
+    });
+  
+    isPlaying = true;
+      
   }
-    
+  
   // lead.triggerAttack();
   // bass.triggerAttack();
 }
